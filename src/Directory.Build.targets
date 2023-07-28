@@ -3,9 +3,9 @@
   <PropertyGroup>
     <FrameworkVersion>6.0.20</FrameworkVersion>
     <ExtensionsVersion>6.0.1</ExtensionsVersion>
-    <EntityFrameworkVersion>3.1.0</EntityFrameworkVersion>
+    <EntityFrameworkVersion>6.0.20</EntityFrameworkVersion>
     
-    <IdentityServerVersion>4.1.2-*</IdentityServerVersion>
+    <IdentityServerVersion>0.0.0-alpha.*</IdentityServerVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,11 +24,11 @@
     <!--our stuff -->
     <PackageReference Update="IdentityModel" Version="6.1.0" />
 
-    <PackageReference Update="IdentityServer4" Version="$(IdentityServerVersion)" />
-    <PackageReference Update="IdentityServer4.AspNetIdentity" Version="$(IdentityServerVersion)" />
-    <PackageReference Update="IdentityServer4.Storage" Version="$(IdentityServerVersion)" />
-    <PackageReference Update="IdentityServer4.EntityFramework.Storage" Version="$(IdentityServerVersion)" />
-    <PackageReference Update="IdentityServer4.EntityFramework" Version="$(IdentityServerVersion)" />
+    <PackageReference Update="Dex.IdentityServer4" Version="$(IdentityServerVersion)" />
+    <PackageReference Update="Dex.IdentityServer4.AspNetIdentity" Version="$(IdentityServerVersion)" />
+    <PackageReference Update="Dex.IdentityServer4.Storage" Version="$(IdentityServerVersion)" />
+    <PackageReference Update="Dex.IdentityServer4.EntityFramework.Storage" Version="$(IdentityServerVersion)" />
+    <PackageReference Update="Dex.IdentityServer4.EntityFramework" Version="$(IdentityServerVersion)" />
 
     <!--microsoft extensions -->
     <PackageReference Update="Microsoft.Extensions.Caching.Memory" Version="$(ExtensionsVersion)" />
@@ -43,7 +43,7 @@
     <PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.6.0" />
     <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="[5.6.0,6.0)" />
     <PackageReference Update="System.Security.Principal.Windows" Version="4.7.0" />
-    <PackageReference Update="AutoMapper" Version="[10.0.0,11.0)" />
+    <PackageReference Update="AutoMapper" Version="[12.0.1, 13)" />
     
     <!--microsoft asp.net core -->
     <PackageReference Update="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="$(FrameworkVersion)" />
