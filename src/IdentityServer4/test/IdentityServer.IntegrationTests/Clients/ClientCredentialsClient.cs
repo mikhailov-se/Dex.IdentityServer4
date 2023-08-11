@@ -118,6 +118,8 @@ namespace IdentityServer.IntegrationTests.Clients
         }
 
         [Fact]
+        // https://github.com/IdentityServer/IdentityServer4/issues/5425
+        // https://github.com/IdentityServer/IdentityServer4/issues/4285
         public async Task Valid_request_with_confirmation_should_return_expected_payload()
         {
             var response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest

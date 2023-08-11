@@ -78,14 +78,11 @@ namespace IdentityServer.IntegrationTests.Common
         {
             var builder = new WebHostBuilder();
             builder.ConfigureServices(ConfigureServices);
-            builder.Configure(app=>
+            builder.Configure(app =>
             {
                 if (basePath != null)
                 {
-                    app.Map(basePath, map =>
-                    {
-                        ConfigureApp(map);
-                    });
+                    app.Map(basePath, map => { ConfigureApp(map); });
                 }
                 else
                 {
@@ -100,7 +97,7 @@ namespace IdentityServer.IntegrationTests.Common
 
             Server = new TestServer(builder);
             Handler = Server.CreateHandler();
-            
+
             BrowserClient = new BrowserClient(new BrowserHandler(Handler));
             BackChannelClient = new HttpClient(Handler);
         }
@@ -125,23 +122,23 @@ namespace IdentityServer.IntegrationTests.Common
             });
 
             services.AddIdentityServer(options =>
-            {
-                Options = options;
-
-                options.Events = new EventsOptions
                 {
-                    RaiseErrorEvents = true,
-                    RaiseFailureEvents = true,
-                    RaiseInformationEvents = true,
-                    RaiseSuccessEvents = true
-                };
-            })
-            .AddInMemoryClients(Clients)
-            .AddInMemoryIdentityResources(IdentityScopes)
-            .AddInMemoryApiResources(ApiResources)
-            .AddInMemoryApiScopes(ApiScopes)
-            .AddTestUsers(Users)
-            .AddDeveloperSigningCredential(persistKey: false);
+                    Options = options;
+
+                    options.Events = new EventsOptions
+                    {
+                        RaiseErrorEvents = true,
+                        RaiseFailureEvents = true,
+                        RaiseInformationEvents = true,
+                        RaiseSuccessEvents = true
+                    };
+                })
+                .AddInMemoryClients(Clients)
+                .AddInMemoryIdentityResources(IdentityScopes)
+                .AddInMemoryApiResources(ApiResources)
+                .AddInMemoryApiScopes(ApiScopes)
+                .AddTestUsers(Users)
+                .AddDeveloperSigningCredential(persistKey: false);
 
             services.AddHttpClient(IdentityServerConstants.HttpClients.BackChannelLogoutHttpClient)
                 .AddHttpMessageHandler(() => BackChannelMessageHandler);
@@ -159,22 +156,14 @@ namespace IdentityServer.IntegrationTests.Common
             app.UseIdentityServer();
 
             // UI endpoints
-            app.Map(Constants.UIConstants.DefaultRoutePaths.Login.EnsureLeadingSlash(), path =>
-            {
-                path.Run(ctx => OnLogin(ctx));
-            });
-            app.Map(Constants.UIConstants.DefaultRoutePaths.Logout.EnsureLeadingSlash(), path =>
-            {
-                path.Run(ctx => OnLogout(ctx));
-            });
-            app.Map(Constants.UIConstants.DefaultRoutePaths.Consent.EnsureLeadingSlash(), path =>
-            {
-                path.Run(ctx => OnConsent(ctx));
-            });
-            app.Map(Constants.UIConstants.DefaultRoutePaths.Error.EnsureLeadingSlash(), path =>
-            {
-                path.Run(ctx => OnError(ctx));
-            });
+            app.Map(Constants.UIConstants.DefaultRoutePaths.Login.EnsureLeadingSlash(),
+                path => { path.Run(ctx => OnLogin(ctx)); });
+            app.Map(Constants.UIConstants.DefaultRoutePaths.Logout.EnsureLeadingSlash(),
+                path => { path.Run(ctx => OnLogout(ctx)); });
+            app.Map(Constants.UIConstants.DefaultRoutePaths.Consent.EnsureLeadingSlash(),
+                path => { path.Run(ctx => OnConsent(ctx)); });
+            app.Map(Constants.UIConstants.DefaultRoutePaths.Error.EnsureLeadingSlash(),
+                path => { path.Run(ctx => OnError(ctx)); });
 
             OnPostConfigure(app);
         }
@@ -242,7 +231,8 @@ namespace IdentityServer.IntegrationTests.Common
         private async Task ReadConsentMessage(HttpContext ctx)
         {
             var interaction = ctx.RequestServices.GetRequiredService<IIdentityServerInteractionService>();
-            ConsentRequest = await interaction.GetAuthorizationContextAsync(ctx.Request.Query["returnUrl"].FirstOrDefault());
+            ConsentRequest =
+                await interaction.GetAuthorizationContextAsync(ctx.Request.Query["returnUrl"].FirstOrDefault());
         }
 
         private async Task CreateConsentResponse(HttpContext ctx)
@@ -297,10 +287,12 @@ namespace IdentityServer.IntegrationTests.Common
         {
             BrowserClient.RemoveCookie(BaseUrl, IdentityServerConstants.DefaultCookieAuthenticationScheme);
         }
+
         public void RemoveSessionCookie()
         {
             BrowserClient.RemoveCookie(BaseUrl, IdentityServerConstants.DefaultCheckSessionCookieName);
         }
+
         public Cookie GetSessionCookie()
         {
             return BrowserClient.GetCookie(BaseUrl, IdentityServerConstants.DefaultCheckSessionCookieName);
@@ -332,7 +324,7 @@ namespace IdentityServer.IntegrationTests.Common
                 responseMode: responseMode,
                 codeChallenge: codeChallenge,
                 codeChallengeMethod: codeChallengeMethod,
-                extra: extra);
+                extra: Parameters.FromObject(extra));
             return url;
         }
 
@@ -358,7 +350,8 @@ namespace IdentityServer.IntegrationTests.Common
             var old = BrowserClient.AllowAutoRedirect;
             BrowserClient.AllowAutoRedirect = false;
 
-            var url = CreateAuthorizeUrl(clientId, responseType, scope, redirectUri, state, nonce, loginHint, acrValues, responseMode, codeChallenge, codeChallengeMethod, extra);
+            var url = CreateAuthorizeUrl(clientId, responseType, scope, redirectUri, state, nonce, loginHint, acrValues,
+                responseMode, codeChallenge, codeChallengeMethod, extra);
             var result = await BrowserClient.GetAsync(url);
             result.StatusCode.Should().Be(HttpStatusCode.Found);
 
@@ -384,7 +377,8 @@ namespace IdentityServer.IntegrationTests.Common
         public Func<HttpRequestMessage, Task> OnInvoke { get; set; }
         public HttpResponseMessage Response { get; set; } = new HttpResponseMessage(HttpStatusCode.OK);
 
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
             InvokeWasCalled = true;
 
@@ -392,11 +386,12 @@ namespace IdentityServer.IntegrationTests.Common
             {
                 await OnInvoke.Invoke(request);
             }
+
             return Response;
         }
     }
 
-    public class MockExternalAuthenticationHandler : 
+    public class MockExternalAuthenticationHandler :
         IAuthenticationHandler,
         IAuthenticationSignInHandler,
         IAuthenticationRequestHandler
@@ -404,7 +399,7 @@ namespace IdentityServer.IntegrationTests.Common
         private readonly IHttpContextAccessor _httpContextAccessor;
         private HttpContext HttpContext => _httpContextAccessor.HttpContext;
 
-        public Func<HttpContext, Task<bool>> OnFederatedSignout = 
+        public Func<HttpContext, Task<bool>> OnFederatedSignout =
             async context =>
             {
                 await context.SignOutAsync();
