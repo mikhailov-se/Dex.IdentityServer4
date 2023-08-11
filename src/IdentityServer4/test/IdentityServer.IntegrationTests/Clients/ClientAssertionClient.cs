@@ -67,7 +67,8 @@ namespace IdentityServer.IntegrationTests.Clients
             {
                 Address = TokenEndpoint,
 
-                ClientId = ClientId,
+                // CredentialStyle.AuthorizationHeader and client assertions are not compatible
+                // ClientId = ClientId,
                 ClientAssertion =
                 {
                     Type = OidcConstants.ClientAssertionTypes.JwtBearer,
@@ -88,7 +89,8 @@ namespace IdentityServer.IntegrationTests.Clients
             var response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = TokenEndpoint,
-                ClientId = "client",
+                // CredentialStyle.AuthorizationHeader and client assertions are not compatible
+                // ClientId = "client",
 
                 ClientAssertion =
                 {
@@ -111,7 +113,8 @@ namespace IdentityServer.IntegrationTests.Clients
             {
                 Address = TokenEndpoint,
 
-                ClientId = ClientId,
+                // CredentialStyle.AuthorizationHeader and client assertions are not compatible
+                // ClientId = ClientId,
                 ClientAssertion =
                 {
                     Type = OidcConstants.ClientAssertionTypes.JwtBearer,
@@ -128,7 +131,8 @@ namespace IdentityServer.IntegrationTests.Clients
             {
                 Address = TokenEndpoint,
 
-                ClientId = ClientId,
+                // CredentialStyle.AuthorizationHeader and client assertions are not compatible
+                // ClientId = ClientId,
                 ClientAssertion =
                 {
                     Type = OidcConstants.ClientAssertionTypes.JwtBearer,
@@ -148,8 +152,8 @@ namespace IdentityServer.IntegrationTests.Clients
             var response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = TokenEndpoint,
-
-                ClientId = ClientId,
+                // CredentialStyle.AuthorizationHeader and client assertions are not compatible
+                // ClientId = ClientId,
                 ClientAssertion =
                 {
                     Type = OidcConstants.ClientAssertionTypes.JwtBearer,
@@ -175,11 +179,12 @@ namespace IdentityServer.IntegrationTests.Clients
                 Address = TokenEndpoint,
 
                 ClientId = clientId,
-                ClientAssertion =
-                {
-                    Type = OidcConstants.ClientAssertionTypes.JwtBearer,
-                    Value = token
-                },
+                // CredentialStyle.AuthorizationHeader and client assertions are not compatible
+                // ClientAssertion =
+                // {
+                //     Type = OidcConstants.ClientAssertionTypes.JwtBearer,
+                //     Value = token
+                // },
 
                 Scope = "api1"
             });

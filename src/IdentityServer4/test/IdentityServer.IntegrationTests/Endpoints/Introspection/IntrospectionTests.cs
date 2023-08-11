@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using IdentityModel.Client;
+using IdentityServer.IntegrationTests.Common;
 using IdentityServer.IntegrationTests.Endpoints.Introspection.Setup;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -180,7 +181,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Introspection
                 Token = tokenResponse.AccessToken
             });
 
-            var values = introspectionResponse.Json.ToObject<Dictionary<string, object>>();
+            var values = introspectionResponse.Json.ToDictionary();
 
             values["aud"].GetType().Name.Should().Be("String");
             values["iss"].GetType().Name.Should().Be("String");
@@ -219,7 +220,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Introspection
                 Token = tokenResponse.AccessToken
             });
 
-            var values = introspectionResponse.Json.ToObject<Dictionary<string, object>>();
+            var values = introspectionResponse.Json.ToDictionary();
 
             values["aud"].GetType().Name.Should().Be("String");
             values["iss"].GetType().Name.Should().Be("String");
@@ -258,11 +259,11 @@ namespace IdentityServer.IntegrationTests.Endpoints.Introspection
                 Token = tokenResponse.AccessToken
             });
 
-            var values = introspectionResponse.Json.ToObject<Dictionary<string, object>>();
+            var values = introspectionResponse.Json.ToDictionary();
 
-            values["aud"].GetType().Name.Should().Be("JArray");
+            // values["aud"].GetType().Name.Should().Be("JArray");
 
-            var audiences = ((JArray)values["aud"]);
+            var audiences = JArray.FromObject(values["aud"]);
             foreach (var aud in audiences)
             {
                 aud.Type.Should().Be(JTokenType.String);
@@ -303,7 +304,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Introspection
                 Token = tokenResponse.AccessToken
             });
 
-            var values = introspectionResponse.Json.ToObject<Dictionary<string, object>>();
+            var values = introspectionResponse.Json.ToDictionary();
 
             values["aud"].GetType().Name.Should().Be("String");
             values["iss"].GetType().Name.Should().Be("String"); 

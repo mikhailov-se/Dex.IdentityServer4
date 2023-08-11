@@ -3,7 +3,9 @@
 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
@@ -200,16 +202,23 @@ namespace IdentityServer4.Validation
                 {
                     var value = token.Payload[key];
 
-                    switch (value)
+                    //https://stackoverflow.com/questions/62398659/why-does-my-code-think-a-value-is-microsoft-identitymodel-json-linq-jobject-when
+                    switch (value) // сюда приходит internal Microsoft.IdentityModel.Json.Linq.JObject / JArray
                     {
                         case string s:
                             payload.Add(key, s);
                             break;
-                        case JObject jobj:
+                        case JObject jobj: // здесь ожидается NewtonSoft.Json.Linq.JObject
                             payload.Add(key, jobj.ToString(Formatting.None));
                             break;
-                        case JArray jarr:
+                        case JArray jarr: // здесь ожидается NewtonSoft.Json.Linq.JArray
                             payload.Add(key, jarr.ToString(Formatting.None));
+                            break;
+                        case INotifyPropertyChanged: // public Microsoft.IdentityModel.Json.Linq.JObject parent
+                            payload.Add(key, value.ToString());
+                            break;
+                        case IList: // public Microsoft.IdentityModel.Json.Linq.JArray parent
+                            payload.Add(key, value.ToString());
                             break;
                     }
                 }
