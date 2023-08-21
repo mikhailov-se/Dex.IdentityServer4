@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>IdentityServer4.AspNetIdentity</PackageId>
+    <PackageId>Dex.IdentityServer4.AspNetIdentity</PackageId>
     <TargetFramework>net5.0</TargetFramework>
     
     <Description>ASP.NET Core Identity Integration for IdentityServer4</Description>
