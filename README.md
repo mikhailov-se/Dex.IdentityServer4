@@ -3,7 +3,7 @@ For project documentation, please visit [readthedocs](https://identityserver4.re
 
 ## How to build
 
-* [Install](https://www.microsoft.com/net/download/core#/current) the latest .NET Core 6 SDK
+* [Install](https://www.microsoft.com/net/download/core#/current) the latest .NET Core 5 SDK
 * Install Git
 * Clone this repo
 * Run `build.ps1` or `build.sh` in the root of the cloned repo
